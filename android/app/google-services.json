@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "127491625837",
+    "project_id": "kolesa-c00a2",
+    "storage_bucket": "kolesa-c00a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127491625837:android:8c780d9095614dc03ec064",
+        "android_client_info": {
+          "package_name": "kz.kolesa.rc_kolesa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127491625837-r4b8489m632qngmh72n5qhaei8uja1bo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kz.kolesa.rc_kolesa",
+            "certificate_hash": "f33f52ca47e9e68b12b144d80dc16292c756a65b"
+          }
+        },
+        {
+          "client_id": "127491625837-r1uce5alt511p6lpcm8imgb3b3dtfu4m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDM7busGyB8mS1bITEDDZ2miyNKmimKSEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "127491625837-r1uce5alt511p6lpcm8imgb3b3dtfu4m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "127491625837-jga918rql6lt6u4nf6k9arenosa8gri1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rcKolesa"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
