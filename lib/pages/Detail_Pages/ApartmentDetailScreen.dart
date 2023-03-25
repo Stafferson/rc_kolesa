@@ -7,6 +7,8 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:rc_kolesa/pages/Detail_Pages/RequestSendingScreen.dart';
+import 'package:rc_kolesa/utilities/Database_Manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -210,7 +212,7 @@ class _ApartmentDetailScreenState extends State<ApartmentDetailScreen> {
               onTap: requestOnTap,
               child: Ink(
                 decoration: BoxDecoration(
-                  color: Color(0xff4A80F0),
+                  color: Color(0xff5a43f3),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Container(
@@ -235,6 +237,7 @@ class _ApartmentDetailScreenState extends State<ApartmentDetailScreen> {
   }
 
   void requestOnTap() {
+    Get.to(() => RequestSendingScreen(apartmentId: widget.aptID.toString()));
   }
 
   void _imageDialog(context, url) async {

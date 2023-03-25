@@ -1,6 +1,9 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:gsheets/gsheets.dart';
 import 'package:rc_kolesa/pages/HomePages/ProfileScreen.dart';
 import 'package:rc_kolesa/utilities/Database_Manager.dart';
 
@@ -34,6 +37,7 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     TextFormField(
                       decoration: InputDecoration(labelText: 'Apartment ID'),
@@ -82,8 +86,8 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
                       },
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
-                      child: RaisedButton(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: FloatingActionButton.extended(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             print(_apartmentId);
@@ -94,28 +98,34 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
                             if (_Exists == true) {
                               DatabaseManager.addApartmentToUser(_apartmentId, user!.email.toString());
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: Color(0xff5a43f3),
-                                  content: Text('Apartment ID already exists', style: TextStyle(color: Colors.white))
+                                const SnackBar(
+                                    backgroundColor: Color(0xff5a43f3),
+                                    content: Text('Added successfully!', style: TextStyle(color: Colors.white))
                                 ),
                               );
+                              Get.back();
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Apartment added', style: TextStyle(color: Colors.white))
+                                const SnackBar(
+                                    backgroundColor: Color(0xff5a43f3),
+                                    content: Text('Error. Try again later', style: TextStyle(color: Colors.white))
                                 ),
                               );
                             }
-                            //Navigator.pop(context, {
-                            //  'apartmentId': _apartmentId,
-                            //  'block': _block,
-                            //  'number': _number,
-                            //});
                           }
                         },
-                        child: Text('Add'),
+                        backgroundColor: Color(0xff5a43f3),
+                        label: Text(
+                          "Add",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                        icon: const Icon(Icons.add),
                       ),
                     ),
+
                   ],
                 ),
               ),
@@ -136,43 +146,23 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
           left: 14,
           top: 16,
         ),
-        child: Text("Add an Apartment",
+        child: Text("Add Apartment",
             style: TextStyle(
                 color: Colors.black,
                 fontSize: 34.sp,
                 fontWeight: FontWeight.bold)),
       ),
+      leading: Padding(
+        padding: EdgeInsets.only(
+          top: 16,
+        ),
+        child: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Get.back(),
+        ),
+      ),
       backgroundColor: Colors.white,
       elevation: 0,
-      actions: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(
-            top: 16.h,
-          ),
-          child: AnimateIcons(
-            startIcon: Icons.refresh_rounded,
-            endIcon: Icons.refresh_rounded,
-            size: 28.0,
-            // add this tooltip for the start icon
-            startTooltip: 'Icons.add_circle',
-            // add this tooltip for the end icon
-            endTooltip: 'Icons.add_circle_outline',
-            controller: _controller,
-            onStartIconPress: () {
-              setState(() {});
-              return true;
-            },
-            onEndIconPress: () {
-              setState(() {});
-              return true;
-            },
-            startIconColor: Colors.white,
-            endIconColor: Colors.white,
-            duration: Duration(milliseconds: 500),
-            clockwise: true,
-          ),
-        ),
-      ],
     );
   }
 

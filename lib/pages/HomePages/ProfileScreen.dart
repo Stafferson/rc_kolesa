@@ -11,6 +11,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:gsheets/gsheets.dart';
+import 'package:rc_kolesa/pages/Detail_Pages/MyRequestsScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -92,8 +93,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Column(
       children: [
         FloatingActionButton.extended(
+          heroTag: "123",
           onPressed: () => copyEmail(),
-          heroTag: "1",
           backgroundColor: Color(0xff5a43f3),
           label: AutoSizeText(
             "Copy email",
@@ -102,19 +103,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           icon: const Icon(Icons.local_post_office_rounded),
         ),
-        //const SizedBox(
-        //  height: 16,
-        //),
-        //FloatingActionButton.extended(
-        //  onPressed: () => copyProfilePhotoUrl(),
-        //  elevation: 0,
-        //  heroTag: "2",
-        //  backgroundColor: Colors.white,
-        //  label: const Text("Copy profile photo Url"),
-        //  icon: const Icon(Icons.link_rounded),
-        //),
         const SizedBox(
           height: 16,
+        ),
+        FloatingActionButton.extended(
+          heroTag: "1234",
+          onPressed: () => Get.to(() => MyRequestsScreen(), transition: Transition.downToUp),
+          backgroundColor: Color(0xff5a43f3),
+          label: AutoSizeText(
+            "My requests",
+            stepGranularity: 1.sp,
+            minFontSize: 16.sp,
+          ),
+          icon: const Icon(Icons.local_post_office_rounded),
         ),
       ],
     );

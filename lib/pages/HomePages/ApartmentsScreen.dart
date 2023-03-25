@@ -92,27 +92,24 @@ class _ApartmentScreenState extends State<ApartmentScreen> {
                             child: ApartmentWidget(
                               title: "$title",
                               subtitle: "$subtitle",
-                              photo: Hero(
-                                tag: "${title}image",
-                                child: CachedNetworkImage(
-                                  imageUrl: photoUrl[0],
-                                  imageBuilder: (context, imageProvider) => Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      shape: BoxShape.rectangle,
-                                      image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: imageProvider,
-                                      ),
+                              photo: CachedNetworkImage(
+                                imageUrl: photoUrl[0],
+                                imageBuilder: (context, imageProvider) => Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    shape: BoxShape.rectangle,
+                                    image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: imageProvider,
                                     ),
                                   ),
-                                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                  const SpinKitDoubleBounce(
-                                    color: Colors.black,
-                                    size: 50.0,
-                                  ),
-                                  errorWidget: (context, url, error) => Icon(Icons.error),
                                 ),
+                                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                const SpinKitDoubleBounce(
+                                  color: Colors.black,
+                                  size: 50.0,
+                                ),
+                                errorWidget: (context, url, error) => Icon(Icons.error),
                               ),
                               onTap: () => ApartmentOnTap(title, photoUrl, contacts_name, contacts_number, aptID, desctiption),
                             ),
@@ -160,7 +157,7 @@ class _ApartmentScreenState extends State<ApartmentScreen> {
       automaticallyImplyLeading: false,
       toolbarHeight: 50.w,
       title: Padding(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           left: 14,
           top: 16,
         ),
@@ -170,6 +167,36 @@ class _ApartmentScreenState extends State<ApartmentScreen> {
                 fontSize: 34.sp,
                 fontWeight: FontWeight.bold)),
       ),
+      actions: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 16,
+            right: 14,
+          ),
+          child: AnimateIcons(
+            startIcon: Icons.refresh_rounded,
+            endIcon: Icons.refresh_rounded,
+            size: 28.0,
+            // add this tooltip for the start icon
+            startTooltip: 'Icons.add_circle',
+            // add this tooltip for the end icon
+            endTooltip: 'Icons.add_circle_outline',
+            controller: _controller,
+            onStartIconPress: () {
+              setState(() {});
+              return true;
+            },
+            onEndIconPress: () {
+              setState(() {});
+              return true;
+            },
+            startIconColor: Colors.black,
+            endIconColor: Colors.black,
+            duration: Duration(milliseconds: 500),
+            clockwise: true,
+          ),
+        ),
+      ],
       backgroundColor: Colors.white,
       elevation: 0,
     );

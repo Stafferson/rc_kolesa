@@ -19,14 +19,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
-    ChatbotScreen(),
     ApartmentScreen(),
+    ChatbotScreen(),
     ProfileScreen(),
   ];
 
   List<Icon> icons = [
-    const Icon(Icons.chat_rounded, color: Colors.white,),
     const Icon(Icons.apartment_rounded, color: Colors.white,),
+    const Icon(Icons.chat_rounded, color: Colors.white,),
     const Icon(Icons.person_rounded, color: Colors.white,),
   ];
 

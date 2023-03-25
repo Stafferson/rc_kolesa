@@ -73,4 +73,39 @@ class DatabaseManager {
       onError: (e) => print("Error completing: $e"),
     );
   }
+
+  static void sendRequest(String aptID, String email, String title, String description, String place, bool isPublic) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    db.collection('requests').add({
+      'aptID': aptID,
+      'email': email,
+      'title': title,
+      'description': description,
+      'place': place,
+      'isPublic': isPublic,
+      'timeStamp': DateTime.now(),
+      'status': 'pending',// |[ pending ]| => |[ in review ]| => either |[ in progress => approved ]| or |[ rejected ]|
+    });
+  }
+
+  static Future<List<DocumentSnapshot>> getMyRequests(String email) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    final arr1 = db.collection('requests').where('email', isEqualTo: email).orderBy("timeStamp", descending: true).get();
+    List<DocumentSnapshot> arr2 = [];
+    await arr1.then(
+          (querySnapshot) {
+        print("Successfully completed");
+        for (var docSnapshot in querySnapshot.docs) {
+          arr2.add(docSnapshot);
+          print('${docSnapshot.id} => ${docSnapshot.data().toString()}' + '\n');
+        }
+      },
+      onError: (e) => print("Error completing: $e"),
+    );
+    //print(arr2[0]['aptID'].toString());
+    //print(arr2[0].data().toString());
+    //print(arr2[0].id);
+    //print('nigger');
+    return arr2;
+  }
 }

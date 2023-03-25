@@ -59,6 +59,7 @@ dependencies:
   upgrader: ^5.1.0
   page_transition: ^2.0.9
   animated_theme_switcher: ^2.0.8
+  toggle_switch: ^2.0.1
 
 dev_dependencies:
   flutter_test:
