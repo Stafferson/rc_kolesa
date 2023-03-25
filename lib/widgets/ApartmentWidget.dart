@@ -59,6 +59,7 @@ class ApartmentWidget extends StatelessWidget {
             ),
           ),
           child: Container(
+            height: 300.w,
             child: Stack(
               children: [
                 vectorBottom ??
@@ -88,9 +89,7 @@ class ApartmentWidget extends StatelessWidget {
                           height: 200.w,
                           width: double.infinity,
                           alignment: Alignment.center,
-
                           child: photo ??
-
                               Padding(
                                 padding: EdgeInsets.only(left: 22, right: 22, top: 22),
                                 child: SvgAsset(

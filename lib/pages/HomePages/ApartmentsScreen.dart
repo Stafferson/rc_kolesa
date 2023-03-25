@@ -13,12 +13,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:rc_kolesa/pages/Detail_Pages/AddApartmentScreen.dart';
+import 'package:rc_kolesa/pages/Detail_Pages/ApartmentDetailScreen.dart';
 import 'package:rc_kolesa/pages/HomePages/ProfileScreen.dart';
 import 'package:rc_kolesa/pages/HomeScreen.dart';
 import 'package:rc_kolesa/pages/LoginScreen.dart';
 import 'package:rc_kolesa/utilities/Database_Manager.dart';
 import 'package:rc_kolesa/widgets/ApartmentWidget.dart';
 
+import '../../widgets/ApartmentInfoWidget.dart';
 import '../../widgets/ApartmentShimmerWidget.dart';
 
 class ApartmentScreen extends StatefulWidget {
@@ -40,134 +42,117 @@ class _ApartmentScreenState extends State<ApartmentScreen> {
       extendBodyBehindAppBar: true,
       appBar: appbar_builder(),
       body: SafeArea(
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          physics: BouncingScrollPhysics(),
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            ApartmentList_builder(user!.email.toString()),
-          ],
-        ),
+        child: ApartmentList_builder(user!.email.toString()),
       ),
       backgroundColor: Colors.white,
     );
    }
 
   Widget ApartmentList_builder(String email) {
-    return SizedBox(
-      height: 330.w,
-      child: FutureBuilder<List<DocumentSnapshot>>(
-          future: DatabaseManager.getUserApartmentList(email),
-          builder: (context, snapshot) {
-            Widget _child;
-            if (snapshot.hasData &&
-                snapshot.connectionState == ConnectionState.done) {
-              //var aas = snapshot.data![0]['apartments'];
-              _child = PageView.builder(
-                  scrollDirection: Axis.horizontal,
-                  physics: BouncingScrollPhysics(),
-                  itemCount: snapshot.data!.length + 1,
-                  itemBuilder: (context, index) {
-                    if (index == snapshot.data!.length) {
-                      return Padding(
-                        padding: const EdgeInsets.all(14.0),
-                        child: ApartmentWidget(
-                          title: "Add new apartment",
-                          subtitle: "Somewhere far away...",
-                          onTap: () => AddApartmentOnTap(),
-                        ),
-                      );
-                    }
-                      String subtitle = snapshot.data![index]['location'].toString();
-                      String title = snapshot.data![index]['name'].toString();
-                      String photoUrl = snapshot.data![index]['photoUrl'].toString();
+    return ListView(
+      scrollDirection: Axis.vertical,
+      physics: BouncingScrollPhysics(),
+      children: [
+        const SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          height: 330.w,
+          child: FutureBuilder<List<DocumentSnapshot>>(
+              future: DatabaseManager.getUserApartmentList(email),
+              builder: (context, snapshot) {
+                Widget _child;
+                if (snapshot.hasData &&
+                    snapshot.connectionState == ConnectionState.done) {
+                  _child = PageView.builder(
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: snapshot.data!.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == snapshot.data!.length) {
+                          return Padding(
+                            padding: const EdgeInsets.all(14.0),
+                            child: ApartmentWidget(
+                              title: "Add new apartment",
+                              subtitle: "Somewhere far away...",
+                              onTap: () => AddApartmentOnTap(),
+                            ),
+                          );
+                        }
+                          String subtitle = snapshot.data![index]['location'].toString();
+                          String title = snapshot.data![index]['name'].toString();
+                          List<dynamic> photoUrl = snapshot.data![index]['photoUrl'].toList();
+                          List<dynamic> contacts_name = snapshot.data![index]['contacts_name'].toList();
+                          List<dynamic> contacts_number = snapshot.data![index]['contacts_number'].toList();
+                          String aptID = snapshot.data![index].id;
+                          String desctiption = snapshot.data![index]['description'].toString();
 
-                      return Padding(
-                        padding: const EdgeInsets.all(14.0),
-                        child: ApartmentWidget(
-                          title: "$title",
-                          subtitle: "$subtitle",
-                          photo: CachedNetworkImage(
-                            imageUrl: photoUrl,
-                            imageBuilder: (context, imageProvider) => Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                shape: BoxShape.rectangle,
-                                image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: imageProvider,
+                          return Padding(
+                            padding: const EdgeInsets.all(14.0),
+                            child: ApartmentWidget(
+                              title: "$title",
+                              subtitle: "$subtitle",
+                              photo: Hero(
+                                tag: "${title}image",
+                                child: CachedNetworkImage(
+                                  imageUrl: photoUrl[0],
+                                  imageBuilder: (context, imageProvider) => Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      shape: BoxShape.rectangle,
+                                      image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: imageProvider,
+                                      ),
+                                    ),
+                                  ),
+                                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                  const SpinKitDoubleBounce(
+                                    color: Colors.black,
+                                    size: 50.0,
+                                  ),
+                                  errorWidget: (context, url, error) => Icon(Icons.error),
                                 ),
                               ),
+                              onTap: () => ApartmentOnTap(title, photoUrl, contacts_name, contacts_number, aptID, desctiption),
                             ),
-                            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                            const SpinKitDoubleBounce(
-                              color: Colors.white,
-                              size: 50.0,
-                            ),
-                            errorWidget: (context, url, error) => Icon(Icons.error),
-                          ),
-                          onTap: () => ApartmentOnTap(),
+                          );
+                      },
+                  );
+                } else {
+                  _child = Center(
+                      child: Container(
+                        child: SpinKitDoubleBounce(
+                          color: Colors.black,
+                          size: 50.0,
+                        ),
                       ),
-                      );
-                  },);
-            } else {
-              /*_child = PageView(
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                children: <Widget>[
-                  Padding(
-                  padding: const EdgeInsets.all(14.0),
-                    child: ApartmentShimmerWidget(
-                    onTap: () => {}
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(14.0),
-                    child: ApartmentShimmerWidget(
-                        onTap: () => {}
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(14.0),
-                    child: ApartmentShimmerWidget(
-                        onTap: () => {}
-                    ),
-                  ),
-                ],
-              );*/
-              _child = Center(
-                  child: Container(
-                    child: SpinKitDoubleBounce(
-                      color: Color(0xff260ecc),
-                      size: 50.0,
-                    ),
-                  ),
-              );
-            }
+                  );
+                }
 
-            return AnimatedSwitcher(
-              duration: Duration(milliseconds: 250),
-              child: _child,
-            );
-          }),
+                return AnimatedSwitcher(
+                  duration: Duration(milliseconds: 250),
+                  child: _child,
+                );
+              }),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+      ],
     );
   }
 
-  void ApartmentOnTap() {
+  void ApartmentOnTap(String name, List<dynamic> photoUrl, List<dynamic> contacts_name, List<dynamic> contacts_number, String aptID, String description) {
     print("TAPPED");
-    Get.to(() => HomeScreen());
+    Get.to(() => ApartmentDetailScreen(name: name, photoUrl: photoUrl, contacts_name: contacts_name, contacts_number: contacts_number, aptID: aptID, description: description),
+    transition: Transition.downToUp);
   }
 
   void AddApartmentOnTap() {
     print("TAPPED");
     Get.to(() => AddApartmentScreen(),
         transition: Transition.downToUp);
-  }
-
-  Widget ApartmentMenu_builder () {
-    return Container();
   }
 
   AppBar appbar_builder() {

@@ -136,7 +136,7 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
           left: 14,
           top: 16,
         ),
-        child: Text("Apartments",
+        child: Text("Add an Apartment",
             style: TextStyle(
                 color: Colors.black,
                 fontSize: 34.sp,
