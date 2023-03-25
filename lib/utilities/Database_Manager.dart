@@ -54,15 +54,23 @@ class DatabaseManager {
 
   static Future<bool> checkApartmentID(String id) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    List<DocumentSnapshot> ans = [];
-    final arr1 = db.collection("Residential Complex").doc(id).get();
-    return arr1.then(
-          (DocumentSnapshot doc) {
-            print("SUCK MY DICK");
-            print(doc.exists);
-            return doc.exists;
+    DocumentSnapshot arr1 = await db.collection("Residential Complex").doc(id).get();
+    print(arr1.exists);
+    return arr1.exists;
+  }
+
+  static void addApartmentToUser(String id, String email) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    final arr1 = db.collectionGroup('apartments').where('email', isEqualTo: email).get();
+    arr1.then(
+          (querySnapshot) {
+        for (var docSnapshot in querySnapshot.docs) {
+          List<dynamic> arr2 = docSnapshot.data()['ids'];
+          arr2.add(id);
+          db.collection('users').doc(email).collection('apartments').doc(docSnapshot.id).update({'ids': arr2});
+        }
       },
-      onError: (e) => print("Error getting document: $e"),
+      onError: (e) => print("Error completing: $e"),
     );
   }
 }

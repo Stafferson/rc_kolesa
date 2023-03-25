@@ -1,11 +1,15 @@
+import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rc_kolesa/pages/HomePages/ProfileScreen.dart';
 import 'package:rc_kolesa/utilities/Database_Manager.dart';
 
 class AddApartmentScreen extends StatefulWidget {
   @override
   _AddApartmentScreenState createState() => _AddApartmentScreenState();
 }
+
+AnimateIconController _controller = AnimateIconController();
 
 class _AddApartmentScreenState extends State<AddApartmentScreen> {
   final _formKey = GlobalKey<FormState>();
@@ -80,13 +84,27 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       child: RaisedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             print(_apartmentId);
                             print(_block);
                             print(_number);
-                            if(DatabaseManager.checkApartmentID(_apartmentId)) {
-
+                            bool _Exists = await DatabaseManager.checkApartmentID(_apartmentId);
+                            print("here $_Exists");
+                            if (_Exists == true) {
+                              DatabaseManager.addApartmentToUser(_apartmentId, user!.email.toString());
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Color(0xff5a43f3),
+                                  content: Text('Apartment ID already exists', style: TextStyle(color: Colors.white))
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Apartment added', style: TextStyle(color: Colors.white))
+                                ),
+                              );
                             }
                             //Navigator.pop(context, {
                             //  'apartmentId': _apartmentId,
@@ -126,10 +144,36 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
       ),
       backgroundColor: Colors.white,
       elevation: 0,
+      actions: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(
+            top: 16.h,
+          ),
+          child: AnimateIcons(
+            startIcon: Icons.refresh_rounded,
+            endIcon: Icons.refresh_rounded,
+            size: 28.0,
+            // add this tooltip for the start icon
+            startTooltip: 'Icons.add_circle',
+            // add this tooltip for the end icon
+            endTooltip: 'Icons.add_circle_outline',
+            controller: _controller,
+            onStartIconPress: () {
+              setState(() {});
+              return true;
+            },
+            onEndIconPress: () {
+              setState(() {});
+              return true;
+            },
+            startIconColor: Colors.white,
+            endIconColor: Colors.white,
+            duration: Duration(milliseconds: 500),
+            clockwise: true,
+          ),
+        ),
+      ],
     );
   }
 
-  //Future<bool> AddApartment() async {
-  //  DatabaseManager.
-  //}
 }
