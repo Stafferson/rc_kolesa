@@ -24,6 +24,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+    ));
     return ScreenUtilInit(
         designSize: const Size(375, 812),
         splitScreenMode: false,
