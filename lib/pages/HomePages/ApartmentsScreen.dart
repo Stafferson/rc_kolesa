@@ -8,11 +8,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:rc_kolesa/pages/HomePages/ProfileScreen.dart';
 import 'package:rc_kolesa/utilities/Database_Manager.dart';
 import 'package:rc_kolesa/widgets/ApartmentWidget.dart';
+
+import '../../widgets/ApartmentShimmerWidget.dart';
 
 class ApartmentScreen extends StatefulWidget {
   const ApartmentScreen({
@@ -79,7 +82,7 @@ class _ApartmentScreenState extends State<ApartmentScreen> {
 
   Widget ApartmentList_builder(String email) {
     return SizedBox(
-      height: 400.w,
+      height: 330.w,
       child: FutureBuilder<List<DocumentSnapshot>>(
           future: DatabaseManager.getUserApartmentList(email),
           builder: (context, snapshot) {
@@ -92,8 +95,20 @@ class _ApartmentScreenState extends State<ApartmentScreen> {
                   physics: BouncingScrollPhysics(),
                   itemCount: snapshot.data!.length + 1,
                   itemBuilder: (context, index) {
-                      String subtitle = snapshot.data![index]['name'].toString();
-                      String title = snapshot.data![index]['location'].toString();
+                    if (index == snapshot.data!.length) {
+                      return Padding(
+                        padding: const EdgeInsets.all(14.0),
+                        child: ApartmentWidget(
+                          title: "Add new apartment",
+                          subtitle: "Somewhere far away...",
+                          onTap: () => {
+                            Get.to(() => ProfileScreen())
+                          },
+                        ),
+                      );
+                    }
+                      String subtitle = snapshot.data![index]['location'].toString();
+                      String title = snapshot.data![index]['name'].toString();
                       String photoUrl = snapshot.data![index]['photoUrl'].toString();
 
                       return Padding(
@@ -103,31 +118,41 @@ class _ApartmentScreenState extends State<ApartmentScreen> {
                           subtitle: "$subtitle",
                           photoUrl: "$photoUrl",
                           onTap: () => {}
-                        ),
+                      ),
                       );
                   },);
             } else {
-              _child = ListView(
+              /*_child = PageView(
                 scrollDirection: Axis.horizontal,
                 physics: BouncingScrollPhysics(),
                 children: <Widget>[
-                  Container(
-                    width: 3,
-                    color: Colors.black,
+                  Padding(
+                  padding: const EdgeInsets.all(14.0),
+                    child: ApartmentShimmerWidget(
+                    onTap: () => {}
+                    ),
                   ),
-                  Container(
-                    width: 3,
-                    color: Colors.black,
+                  Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: ApartmentShimmerWidget(
+                        onTap: () => {}
+                    ),
                   ),
-                  Container(
-                    width: 3,
-                    color: Colors.black,
-                  ),
-                  Container(
-                    width: 3,
-                    color: Colors.black,
+                  Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: ApartmentShimmerWidget(
+                        onTap: () => {}
+                    ),
                   ),
                 ],
+              );*/
+              _child = Center(
+                  child: Container(
+                    child: SpinKitDoubleBounce(
+                      color: Color(0xff260ecc),
+                      size: 50.0,
+                    ),
+                  ),
               );
             }
 

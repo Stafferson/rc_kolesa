@@ -8,6 +8,7 @@ class MeditationSvgAssets {
   MeditationSvgAssets._internal();
 
   Map<AssetName, String> assets = {
+    AssetName.city: "assets/icons/city.svg",
     AssetName.search: "assets/icons/search.svg",
     AssetName.vectorMain: "assets/pics/VectorMainNews.svg",
     AssetName.vectorBottom: "assets/pics/Vector.svg",
@@ -32,6 +33,7 @@ class MeditationSvgAssets {
 }
 
 enum AssetName {
+  city,
   search,
   vectorMain,
   vectorBottom,

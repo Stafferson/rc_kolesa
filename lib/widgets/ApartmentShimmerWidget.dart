@@ -4,17 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/get_utils/get_utils.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../main.dart';
 import '../utilities/icons.dart';
 import '../utilities/svg_asset.dart';
 
-class ApartmentWidget extends StatelessWidget {
-  final String? title;
-  final String? subtitle;
-  final String? photoUrl;
+class ApartmentShimmerWidget extends StatelessWidget {
   final Color? gradientStartColor;
   final Color? gradientEndColor;
   final double? height;
@@ -24,11 +20,8 @@ class ApartmentWidget extends StatelessWidget {
   final Function? onTap;
   final bool? is_loaded;
 
-  const ApartmentWidget(
+  const ApartmentShimmerWidget(
       {Key? key,
-      this.title,
-      this.subtitle,
-      this.photoUrl,
       this.gradientStartColor,
       this.gradientEndColor,
       this.height,
@@ -84,31 +77,24 @@ class ApartmentWidget extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        photoUrl ?? SizedBox(),
-                        /*photoUrl ?? Container(
+                        Container(
                           height: 200.w,
                           width: double.infinity,
-                          child: CachedNetworkImage(
-                            imageUrl: this.photoUrl!,
-                            imageBuilder: (context, imageProvider) => Container(
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child: Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                shape: BoxShape.rectangle,
-                                image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: imageProvider,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
                                 ),
+                                color: Colors.white,
                               ),
                             ),
-                            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                            const SpinKitDoubleBounce(
-                              color: Colors.white,
-                              size: 50.0,
-                            ),
-                            errorWidget: (context, url, error) => Icon(Icons.error),
                           ),
-                        ) : SvgAsset(assetName: AssetName.city, color: Colors.white, width: double.infinity,),
-                        */Padding(
+                        ),
+                        Padding(
                           padding: EdgeInsets.only(left: 22, right: 22, top: 22, bottom: 12,),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -116,36 +102,38 @@ class ApartmentWidget extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Material(
-                                    color: Colors.transparent,
-                                    child: DefaultTextStyle(
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                      child: Text(
-                                        title!,
-                                        style: TextStyle(
-                                          fontSize: 22.sp,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,),
+                                  Shimmer.fromColors(
+                                    baseColor: Colors.grey[300]!,
+                                    highlightColor: Colors.grey[100]!,
+                                    child: SizedBox(
+                                      height: 22.sp,
+                                      width: 150.w,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10),
+                                          ),
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   ),
                                   SizedBox(
                                     height: 6,
                                   ),
-                                  Material(
-                                    color: Colors.transparent,
-                                    child: DefaultTextStyle(
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                      child: Text(
-                                        subtitle!,
-                                        style: TextStyle(
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.w300,
-                                          color: Colors.white,),
+                                  Shimmer.fromColors(
+                                    baseColor: Colors.grey[300]!,
+                                    highlightColor: Colors.grey[100]!,
+                                    child: SizedBox(
+                                      height: 22.sp,
+                                      width: 100.w,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10),
+                                          ),
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   ),

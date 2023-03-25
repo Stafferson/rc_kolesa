@@ -120,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onPressed: () => copyEmail(),
           elevation: 0,
           heroTag: "1",
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: Color(0xff5a43f3),
           label: AutoSizeText(
             "Copy email",
             stepGranularity: 1.sp,
