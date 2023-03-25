@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:animate_icons/animate_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +12,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
+import 'package:rc_kolesa/pages/Detail_Pages/AddApartmentScreen.dart';
 import 'package:rc_kolesa/pages/HomePages/ProfileScreen.dart';
+import 'package:rc_kolesa/pages/HomeScreen.dart';
+import 'package:rc_kolesa/pages/LoginScreen.dart';
 import 'package:rc_kolesa/utilities/Database_Manager.dart';
 import 'package:rc_kolesa/widgets/ApartmentWidget.dart';
 
@@ -34,46 +38,17 @@ class _ApartmentScreenState extends State<ApartmentScreen> {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      //appBar: appbar_builder(),
-      body: NestedScrollView(
-        floatHeaderSlivers: true,
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              automaticallyImplyLeading: false,
-              toolbarHeight: 50.w,
-              title: Padding(
-                padding: EdgeInsets.only(
-                  left: 14,
-                  top: 16,
-                ),
-                child: Text("Apartments",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 34.sp,
-                        fontWeight: FontWeight.bold)),
-              ),
-              actions: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 16.h,
-                  ),
-                  child: Icon(Icons.search_rounded, color: Colors.black, size: 34,),
-                ),
-              ],
-              backgroundColor: Colors.white,
-              elevation: 0,
+      appBar: appbar_builder(),
+      body: SafeArea(
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          physics: BouncingScrollPhysics(),
+          children: [
+            SizedBox(
+              height: 20,
             ),
-          ];
-        },
-        body: SafeArea(
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            physics: BouncingScrollPhysics(),
-            children: [
-              ApartmentList_builder(user!.email.toString()),
-            ],
-          ),
+            ApartmentList_builder(user!.email.toString()),
+          ],
         ),
       ),
       backgroundColor: Colors.white,
@@ -101,9 +76,7 @@ class _ApartmentScreenState extends State<ApartmentScreen> {
                         child: ApartmentWidget(
                           title: "Add new apartment",
                           subtitle: "Somewhere far away...",
-                          onTap: () => {
-                            Get.to(() => ProfileScreen())
-                          },
+                          onTap: () => AddApartmentOnTap(),
                         ),
                       );
                     }
@@ -116,8 +89,26 @@ class _ApartmentScreenState extends State<ApartmentScreen> {
                         child: ApartmentWidget(
                           title: "$title",
                           subtitle: "$subtitle",
-                          photoUrl: "$photoUrl",
-                          onTap: () => {}
+                          photo: CachedNetworkImage(
+                            imageUrl: photoUrl,
+                            imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                shape: BoxShape.rectangle,
+                                image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: imageProvider,
+                                ),
+                              ),
+                            ),
+                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                            const SpinKitDoubleBounce(
+                              color: Colors.white,
+                              size: 50.0,
+                            ),
+                            errorWidget: (context, url, error) => Icon(Icons.error),
+                          ),
+                          onTap: () => ApartmentOnTap(),
                       ),
                       );
                   },);
@@ -161,6 +152,41 @@ class _ApartmentScreenState extends State<ApartmentScreen> {
               child: _child,
             );
           }),
+    );
+  }
+
+  void ApartmentOnTap() {
+    print("TAPPED");
+    Get.to(() => HomeScreen());
+  }
+
+  void AddApartmentOnTap() {
+    print("TAPPED");
+    Get.to(() => AddApartmentScreen(),
+        transition: Transition.downToUp);
+  }
+
+  Widget ApartmentMenu_builder () {
+    return Container();
+  }
+
+  AppBar appbar_builder() {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      toolbarHeight: 50.w,
+      title: Padding(
+        padding: EdgeInsets.only(
+          left: 14,
+          top: 16,
+        ),
+        child: Text("Apartments",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 34.sp,
+                fontWeight: FontWeight.bold)),
+      ),
+      backgroundColor: Colors.white,
+      elevation: 0,
     );
   }
 }

@@ -39,74 +39,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      body: NestedScrollView(
-        floatHeaderSlivers: true,
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              backgroundColor: Colors.white,
-              automaticallyImplyLeading: false,
-              toolbarHeight: 50.w,
-              title: Padding(
-                padding: EdgeInsets.only(
-                  left: 14,
-                  top: 16,
-                ),
-                child: Text("Profile",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 34.sp,
-                        fontWeight: FontWeight.bold)
-                ),
-              ),
-              elevation: 0,
-            ),
-          ];
-        },
-        body: SafeArea(
-          child: AnimationLimiter(
-            child: Column(
-              children: [
-                //SizedBox(height: 15),
-                Expanded(
-                  flex: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.all(0.1),
-                    child: ListView(
-                      physics: BouncingScrollPhysics(),
-                      children: [
-                        SizedBox(height: 40),
-                        const _TopPortion(),
-                        const SizedBox(height: 15),
-                        Center(
-                          child: AutoSizeText(
-                            "${user!.displayName}",
-                            stepGranularity: 1.sp,
-                            minFontSize: 22.sp,
-                            style: primaryTextStyle(),
-                          ),
+      appBar: appbar_builder(),
+      body: SafeArea(
+        child: AnimationLimiter(
+          child: Column(
+            children: [
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.all(0.1),
+                  child: ListView(
+                    physics: BouncingScrollPhysics(),
+                    children: [
+                      SizedBox(height: 40),
+                      const _TopPortion(),
+                      const SizedBox(height: 15),
+                      Center(
+                        child: AutoSizeText(
+                          "${user!.displayName}",
+                          stepGranularity: 1.sp,
+                          minFontSize: 22.sp,
+                          style: primaryTextStyle(),
                         ),
-                        const SizedBox(height: 4),
-                        Center(
-                          child: AutoSizeText(
-                            "${user!.email}",
-                            stepGranularity: 1.sp,
-                            minFontSize: 18.sp,
-                            style: secondaryTextStyle(),
-                          ),
+                      ),
+                      const SizedBox(height: 4),
+                      Center(
+                        child: AutoSizeText(
+                          "${user!.email}",
+                          stepGranularity: 1.sp,
+                          minFontSize: 18.sp,
+                          style: secondaryTextStyle(),
                         ),
-                        const SizedBox(height: 12),
-                        SizedBox(width: 30, child: ProfileInfoRow(key: _key)),
-                        const SizedBox(height: 20),
-                        profileButtonsBuilder(),
+                      ),
+                      const SizedBox(height: 12),
+                      SizedBox(width: 30, child: ProfileInfoRow(key: _key)),
+                      const SizedBox(height: 20),
+                      profileButtonsBuilder(),
 
-                        SizedBox(height: 20),
-                      ],
-                    ),
+                      SizedBox(height: 20),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -118,7 +93,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         FloatingActionButton.extended(
           onPressed: () => copyEmail(),
-          elevation: 0,
           heroTag: "1",
           backgroundColor: Color(0xff5a43f3),
           label: AutoSizeText(
@@ -152,7 +126,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       content: Text("Copied to the Clipboard!"),
       backgroundColor: Colors.white,
       behavior: SnackBarBehavior.floating,
-      elevation: 10,
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       duration: Duration(milliseconds: 500),
     ));
@@ -165,10 +138,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
       content: Text("Copied to the Clipboard!"),
       backgroundColor: Colors.white,
       behavior: SnackBarBehavior.floating,
-      elevation: 10,
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       duration: Duration(milliseconds: 500),
     ));
+  }
+
+  AppBar appbar_builder() {
+    return AppBar(
+      elevation: 0,
+      backgroundColor: Colors.white,
+      automaticallyImplyLeading: false,
+      toolbarHeight: 50.w,
+      title: Padding(
+        padding: EdgeInsets.only(
+          left: 14,
+          top: 16,
+        ),
+        child: Text("Profile",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 34.sp,
+                fontWeight: FontWeight.bold)
+        ),
+      ),
+    );
   }
 }
 
@@ -321,7 +314,7 @@ Material profileInfoShimmer() {
       width: 80.w,
       child: Container(
         child: const SpinKitThreeBounce(
-          color: Colors.white,
+          color: Colors.black,
           size: 25.0,
         ),
       ),

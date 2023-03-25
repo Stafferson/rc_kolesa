@@ -14,7 +14,7 @@ import '../utilities/svg_asset.dart';
 class ApartmentWidget extends StatelessWidget {
   final String? title;
   final String? subtitle;
-  final String? photoUrl;
+  final Widget? photo;
   final Color? gradientStartColor;
   final Color? gradientEndColor;
   final double? height;
@@ -28,7 +28,7 @@ class ApartmentWidget extends StatelessWidget {
       {Key? key,
       this.title,
       this.subtitle,
-      this.photoUrl,
+      this.photo,
       this.gradientStartColor,
       this.gradientEndColor,
       this.height,
@@ -84,31 +84,24 @@ class ApartmentWidget extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        photoUrl ?? SizedBox(),
-                        /*photoUrl ?? Container(
+                        Container(
                           height: 200.w,
                           width: double.infinity,
-                          child: CachedNetworkImage(
-                            imageUrl: this.photoUrl!,
-                            imageBuilder: (context, imageProvider) => Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                shape: BoxShape.rectangle,
-                                image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: imageProvider,
+                          alignment: Alignment.center,
+
+                          child: photo ??
+
+                              Padding(
+                                padding: EdgeInsets.only(left: 22, right: 22, top: 22),
+                                child: SvgAsset(
+                                  assetName: AssetName.city,
+                                  color: Colors.white,
+                                  height: 170.w,
+                                  width: 252.w
                                 ),
                               ),
-                            ),
-                            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                            const SpinKitDoubleBounce(
-                              color: Colors.white,
-                              size: 50.0,
-                            ),
-                            errorWidget: (context, url, error) => Icon(Icons.error),
-                          ),
-                        ) : SvgAsset(assetName: AssetName.city, color: Colors.white, width: double.infinity,),
-                        */Padding(
+                        ),
+                        Padding(
                           padding: EdgeInsets.only(left: 22, right: 22, top: 22, bottom: 12,),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -151,7 +144,7 @@ class ApartmentWidget extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              Icon(Icons.apartment_outlined, color: Colors.white,)
+                              Icon(Icons.apartment_rounded, color: Colors.white,)
                             ],
                           ),
                         ),

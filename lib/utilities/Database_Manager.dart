@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -48,5 +50,19 @@ class DatabaseManager {
     }
     print("yes");
     return ans;
+  }
+
+  static Future<bool> checkApartmentID(String id) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    List<DocumentSnapshot> ans = [];
+    final arr1 = db.collection("Residential Complex").doc(id).get();
+    return arr1.then(
+          (DocumentSnapshot doc) {
+            print("SUCK MY DICK");
+            print(doc.exists);
+            return doc.exists;
+      },
+      onError: (e) => print("Error getting document: $e"),
+    );
   }
 }
