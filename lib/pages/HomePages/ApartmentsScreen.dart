@@ -51,23 +51,24 @@ class _ApartmentScreenState extends State<ApartmentScreen> {
   Widget ApartmentList_builder(String email) {
     return ListView(
       scrollDirection: Axis.vertical,
+
       physics: BouncingScrollPhysics(),
       children: [
         const SizedBox(
           height: 20,
         ),
         SizedBox(
-          height: 330.w,
+          height: 700.w,
           child: FutureBuilder<List<DocumentSnapshot>>(
               future: DatabaseManager.getUserApartmentList(email),
               builder: (context, snapshot) {
                 Widget _child;
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
-                  _child = PageView.builder(
-                      scrollDirection: Axis.horizontal,
+                  _child = ListView.builder(
+                      scrollDirection: Axis.vertical,
                       physics: BouncingScrollPhysics(),
-                      itemCount: snapshot.data!.length + 1,
+                      itemCount: snapshot.data!.length + 2,
                       itemBuilder: (context, index) {
                         if (index == snapshot.data!.length) {
                           return Padding(
@@ -78,6 +79,9 @@ class _ApartmentScreenState extends State<ApartmentScreen> {
                               onTap: () => AddApartmentOnTap(),
                             ),
                           );
+                        }
+                        if (index == snapshot.data!.length + 1) {
+                          return SizedBox(height: 20);
                         }
                           String subtitle = snapshot.data![index]['location'].toString();
                           String title = snapshot.data![index]['name'].toString();

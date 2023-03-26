@@ -102,7 +102,10 @@ class DatabaseManager {
       },
       onError: (e) => print("Error completing: $e"),
     );
-    //print(arr2[0]['aptID'].toString());
+
+    //DateTime ar = arr2[0]['timeStamp'].toDate();
+    //print(ar.toString());
+    //print(arr2[0]['timeStamp'].toString());
     //print(arr2[0].data().toString());
     //print(arr2[0].id);
     //print('nigger');

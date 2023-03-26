@@ -12,13 +12,13 @@ import '../utilities/icons.dart';
 import '../utilities/svg_asset.dart';
 
 class RequestWidget extends StatelessWidget {
-  final String? title;
-  final String? subtitle;
-  final String? place;
-  final String? email;
+  final String? title;//
+  final String? subtitle;//
+  final String? place;//
+  final String? email;//
   final String? docID;
-  final bool? isPublic;
-  final String? status;
+  final bool? isPublic;//
+  final String? status;//
   final DateTime? timeStamp;
 
   const RequestWidget(
@@ -43,7 +43,7 @@ class RequestWidget extends StatelessWidget {
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(26),
-            gradient: LinearGradient(
+            gradient: const LinearGradient(
               colors: [
                 Color(0xff441DFC),
                 Color(0xff4E81EB),
@@ -100,7 +100,7 @@ class RequestWidget extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 6,
                                   ),
                                   Material(
@@ -118,9 +118,62 @@ class RequestWidget extends StatelessWidget {
                                       ),
                                     ),
                                   ),
+                                  SizedBox(height: 64),
+                                  Material(
+                                    color: Colors.transparent,
+                                    child: DefaultTextStyle(
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                      child: Text(
+                                        "Date: ${timeStamp.toString()}",
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.white,),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 6,
+                                  ),
+                                  Material(
+                                    color: Colors.transparent,
+                                    child: DefaultTextStyle(
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                      child: Text(
+                                        "Request ID: $docID!",
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.white,),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
-                              Icon(Icons.apartment_rounded, color: Colors.white,)
+                              Column(
+                                children: [
+                                  isPublic == true ?
+                                  Icon(Icons.mail_rounded, color: Colors.white,)
+                                      : Icon(Icons.mail_lock_rounded, color: Colors.white),
+                                  SizedBox(height: 6),
+                                  if (status == 'pending')
+                                    Icon(Icons.pending, color: Colors.white),
+                                  if (status == 'in_review')
+                                    Icon(Icons.check_box_outline_blank_rounded, color: Colors.white),
+                                  if (status == 'accepted')
+                                    Icon(Icons.check_box_rounded, color: Colors.white),
+                                  if (status == 'declined')
+                                    Icon(Icons.indeterminate_check_box_rounded, color: Colors.white),
+                                  if (status == 'in_progress')
+                                    Icon(Icons.timelapse_rounded, color: Colors.white),
+                                  if (status == 'done')
+                                    Icon(Icons.done_all_rounded, color: Colors.white),
+                                ],
+                              )
                             ],
                           ),
                         ),

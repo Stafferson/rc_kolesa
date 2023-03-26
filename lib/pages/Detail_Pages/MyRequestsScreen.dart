@@ -61,12 +61,23 @@ class _MyRequestsScreenState extends State<MyRequestsScreen> {
               if (snapshot.hasData &&
                   snapshot.connectionState == ConnectionState.done) {
                 _child = ListView.separated(
+                  padding: const EdgeInsets.only(
+                    top: 24,
+                    left: 16,
+                    right: 16,
+                  ),
                   physics: BouncingScrollPhysics(),
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     return RequestWidget(
-                      title: "niggerTitle",
-                      subtitle: "niggerSubTitle",
+                      title: snapshot.data![index].get("title"),
+                      subtitle: snapshot.data![index].get("description"),
+                      timeStamp: snapshot.data![index].get("timeStamp").toDate(),
+                      place: snapshot.data![index].get("place"),
+                      status: snapshot.data![index].get("status"),
+                      docID: snapshot.data![index].id,
+                      isPublic: snapshot.data![index].get("isPublic"),
+                      email: snapshot.data![index].get("email"),
                     );
                   },
                   separatorBuilder: (context, index) =>

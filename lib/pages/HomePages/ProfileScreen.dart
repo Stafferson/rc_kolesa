@@ -38,6 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: appbar_builder(),
@@ -241,9 +242,6 @@ class _TopPortion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-      // Stack(
-      // fit: StackFit.expand,
-      // children: [
       Align(
         alignment: Alignment.bottomCenter,
         child: SizedBox(
