@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rc_kolesa/pages/HomeScreen.dart';
@@ -18,11 +19,10 @@ class LoginScreen extends StatelessWidget {
     }
     else {
       return Scaffold(
+        backgroundColor: Colors.white,
         extendBody: true,
         extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          title: Text('Incident-Manager Chatbot'),
-        ),
+        appBar: appbar_builder(),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -102,12 +102,39 @@ class LoginScreen extends StatelessWidget {
                   }
                 },
                 child: Text('Login with Google'),
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xff5a43f3),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32.0),
+                  ),
+                )
               ),
             ],
           ),
         ),
       );
     }
+  }
+
+  AppBar appbar_builder() {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      toolbarHeight: 50.w,
+      centerTitle: true,
+      title: Padding(
+        padding: const EdgeInsets.only(
+          left: 14,
+          top: 16,
+        ),
+        child: Text("PropMate",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 34.sp,
+                fontWeight: FontWeight.bold)),
+      ),
+      backgroundColor: Colors.white,
+      elevation: 0,
+    );
   }
 
   Future<UserCredential?> signInWithGoogle() async {

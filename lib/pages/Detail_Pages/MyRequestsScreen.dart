@@ -20,6 +20,7 @@ class _MyRequestsScreenState extends State<MyRequestsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: NestedScrollView(
         floatHeaderSlivers: true,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
